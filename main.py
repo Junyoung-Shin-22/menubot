@@ -36,10 +36,7 @@ async def on_message(message):
     parsed_args = PARSER.parse_args(args)
     
     if parsed_args is None:
-        content = f'''
-        {message.author.mention}
-        ```{PARSER_HELP}```
-        '''
+        content = f'''{message.author.mention}```{PARSER_HELP}```'''
         await message.channel.send(content)
         return
     
@@ -52,10 +49,7 @@ async def on_message(message):
         amount = 1
 
     menus = '\n'.join(random.choices(MENU_LIST[category], k=amount))
-    content = f'''
-        {message.author.mention}
-        ```{menus}```
-        '''
+    content = f'''{message.author.mention}```{menus}```'''
     await message.channel.send(content)
 
 if __name__ == '__main__':
