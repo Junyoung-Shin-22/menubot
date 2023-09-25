@@ -1,17 +1,28 @@
-from collections import defaultdict
+import requests
 
-MENU_LIST = defaultdict(lambda:MENU_LIST['기본'])
+url = "http://dogumaster.com/select/menu/api"
+headers = {
+        'Host': 'dogumaster.com',
+        'Origin': 'http://dogumaster.com',
+        'Referer': 'http://dogumaster.com/select/menu',
 
-def load_menu(file, key):
-    with open(file) as f:
-        MENU_LIST[key] = f.read().splitlines()
+        # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Whale/3.22.205.18 Safari/537.36',
+        'Content-type': 'application/x-www-form-urlencoded',
+    }
+data = {
+        'type_01': 'all',
+        'country': 'all',
+        'type_03': 'all',
+    }
 
-load_menu('default.txt', '기본')
-load_menu('cup-ramen.txt', '컵라면')
-load_menu('heaven.txt', '김밥천국')
+def get_menu():
+    response = requests.post(url=url, headers=headers, data=data)
+    if response.status_code == 200:
+        try:
+            return response.json()['name']
+        except:
+            return None
 
-# unit tests
 if __name__ == '__main__':
-    print(MENU_LIST['기본'])
-    print(MENU_LIST['컵라면'])
-    print(MENU_LIST['이상한거'])
+    for _ in range(10):
+        print(get_menu())
